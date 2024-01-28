@@ -1,0 +1,62 @@
+import tkinter as tk
+
+# Definindo cores e fonte
+claro= "#9b9dbd"
+azulescuro = "#4f5496"
+medio = "#5d67ff"
+vermelho= "#e05772"
+fonte = ("Arial", 35, "bold")
+fonte2 = ("Arial", 30,"bold")
+
+# Função para adicionar um valor à entrada
+def chave(value):
+    current = tela.get()
+    tela.delete(0, tk.END)
+    tela.insert(tk.END, current + str(value))
+
+# Função para limpar a entrada
+def limpar():
+    tela.delete(0, tk.END)
+
+# Função para calcular o resultado
+def calcular():
+    try:
+        resultado = eval(tela.get())
+        tela.delete(0, tk.END)
+        tela.insert(tk.END, str(resultado))
+    except Exception as e:
+        tela.delete(0, tk.END)
+        tela.insert(tk.END, "Erro")
+
+# Criando a janela principal
+janela = tk.Tk()
+janela.geometry("425x505")
+janela.title("Calculadora")
+janela.configure(bg=azulescuro)
+
+# Criando a entrada para números e resultados
+tela = tk.Entry(janela, width=12, font=fonte , justify='right')
+tela.place(x=105, y=5, height=80)
+
+# Adicionando botão "AC" para limpar
+bt_ac=tk.Button(janela, text="AC", bg=vermelho, font=fonte2, command=limpar )
+bt_ac.place(x=11 , y=5 )
+
+# Criando os botões com texto e posição
+buttons = [
+    ('=', 320, 395, calcular), (',', 217, 395, lambda: chave('.')),
+    ('÷', 114, 395, lambda: chave('/')), ('0', 11, 395, lambda: chave('0')),
+    ('+', 320, 295, lambda: chave('+')), ('3', 217, 295, lambda: chave('3')),
+    ('2', 114, 295, lambda: chave('2')), ('1', 11, 295, lambda: chave('1')),
+    ('-', 320, 195, lambda: chave('-')), ('6', 217, 195, lambda: chave('6')),
+    ('5', 114, 195, lambda: chave('5')), ('4', 11, 195, lambda: chave('4')),
+    ('x', 320, 95, lambda: chave('*')), ('9', 217, 95, lambda: chave('9')),
+    ('8', 114, 95, lambda: chave('8')), ('7', 11, 95, lambda: chave('7')),
+]
+
+# Criando os botões na interface com os comandos associados
+for texto, x, y, comando in buttons:
+    tk.Button(janela, text=texto, bg=claro, font=fonte, command=comando).place(x=x, y=y, height=95, width=95)
+
+# Iniciando o loop principal da interface gráfica
+janela.mainloop()
